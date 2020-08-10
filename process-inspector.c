@@ -6,11 +6,10 @@ get_pid_command (unsigned int pid)
   int i = 0;
   FILE *fp = NULL;
   char *p = NULL;
-  char buf[CMD_MAX+1] = { 0, };
   char *cmd = NULL;
+  char buf[CMD_MAX+1] = { 0, };
 
   snprintf (buf, PATH_MAX+1, "/proc/%u/cmdline", pid);
-  printf ("buf: %s\n", buf);
   fp = fopen (buf, "r");
   if (fp) {
     for (i=0; i<CMD_MAX+1; i++)
