@@ -10,5 +10,6 @@
 
 char * get_pid_command (unsigned int pid);
 char * get_pid_abspath (unsigned int pid);
+char * get_pid_path (unsigned int pid);
 
 #endif

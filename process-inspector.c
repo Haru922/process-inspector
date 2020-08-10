@@ -1,4 +1,6 @@
 #include "process-inspector.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
 char *
 get_pid_command (unsigned int pid)
@@ -39,4 +41,24 @@ get_pid_abspath (unsigned int pid)
   snprintf (buf, PATH_MAX+1, "/proc/%u/exe", pid);
 
   return realpath (buf, NULL);
+}
+
+char *
+get_pid_path (unsigned int pid)
+{
+  char *p = NULL;
+  char *path = (char *) calloc (1, sizeof (char) * (CMD_MAX+1));
+  char *cmd = get_pid_command (pid);
+  char *abspath = get_pid_abspath (pid);
+
+  snprintf (path, CMD_MAX+1, "%s", abspath);
+  if (strcmp (abspath, cmd)) {
+    p = strchr (cmd, ' ');
+    if (p && p[1]) {
+      strncat (path, " ", CMD_MAX);
+      strncat (path, p+1, CMD_MAX);
+    }
+  }
+      
+  return path;
 }

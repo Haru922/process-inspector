@@ -2,8 +2,7 @@
 
 int main (int argc, char **argv) {
   unsigned int pid = 0;
-  char *abspath = NULL;
-  char *cmd = NULL;
+  char *path = NULL;
   
   fprintf (stdout, "** cmd_parser **\n");
   for (;;) {
@@ -13,16 +12,11 @@ int main (int argc, char **argv) {
     if (pid == 0)
       break;
 
-    abspath = get_pid_abspath (pid);
-    cmd = get_pid_command (pid);
-    fprintf (stdout, "abspath: %s\ncmd: %s\n", abspath, cmd);
-    if (abspath) {
-      free (abspath);
-      abspath = NULL;
-    }
-    if (cmd) {
-      free (cmd);
-      cmd = NULL;
+    path = get_pid_path (pid);
+    fprintf (stdout, "path: %s\n", get_pid_path (pid));
+    if (path) {
+      free (path);
+      path = NULL;
     }
   }
   fprintf (stdout, "EXIT\n");
