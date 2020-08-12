@@ -47,18 +47,25 @@ char *
 get_pid_path (unsigned int pid)
 {
   char *p = NULL;
-  char *path = (char *) calloc (1, sizeof (char) * (CMD_MAX+1));
-  char *cmd = get_pid_command (pid);
+  char *path = NULL;
   char *abspath = get_pid_abspath (pid);
+  char *cmd = get_pid_command (pid);
 
-  snprintf (path, CMD_MAX+1, "%s", abspath);
-  if (strcmp (abspath, cmd)) {
-    p = strchr (cmd, ' ');
-    if (p && p[1]) {
-      strncat (path, " ", CMD_MAX);
-      strncat (path, p+1, CMD_MAX);
+  if (abspath && cmd) {
+    if (strcmp (abspath, cmd)) {
+      path = (char *) calloc (1, sizeof (char) * (CMD_MAX+1));
+      snprintf (path, CMD_MAX+1, "%s", abspath);
+      p = strchr (cmd, ' ');
+      if (p && p[1]) {
+        strncat (path, " ", CMD_MAX);
+        strncat (path, p+1, CMD_MAX);
+      }
+    } else {
+      path = abspath;
+      free (cmd);
     }
-  }
-      
+  } else 
+    path = (abspath) ? abspath : cmd;
+
   return path;
 }

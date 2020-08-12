@@ -13,8 +13,8 @@ int main (int argc, char **argv) {
       break;
 
     path = get_pid_path (pid);
-    fprintf (stdout, "path: %s\n", get_pid_path (pid));
     if (path) {
+      fprintf (stdout, "path: %s\n", path);
       free (path);
       path = NULL;
     }
